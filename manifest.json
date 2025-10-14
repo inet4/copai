@@ -13,19 +13,21 @@
   },
   "permissions": [
     "clipboardRead",
+    "https://api.openai.com/v1/responses/*",
     "tabs"
   ],
   "background": {
     "scripts": [
-      "background.js"
+      "src/background.js"
     ]
   },
   "content_scripts": [
     {
       "matches": [
+        "*://moodle.spengergasse.at/*"
       ],
       "js": [
-        "copai.js"
+        "src/copai.js"
       ],
       "all_frames": true
     }
