@@ -5,7 +5,7 @@ buildFirefoxXpiAddon rec {
   version = "1.0.0";
   addonId = "copai@inet4.github.com";
   url = "https://github.com/inet4/copai/releases/download/v${version}/${pname}@inet4.github.com.xpi";
-  sha256 = "sha256:90229a2c10857d6ef3d1c7081c1f92193592a6461ec4cdc5cafa4e55df8fb740";
+  sha256 = "sha256-fJdwNM1mLVeUuP17p7bkG2Hg2aHyr4OSR6kqfEK4bTk=";
   meta = with lib; {
     homepage = "https://github.com/inet4/copai";
     description = ":)";
