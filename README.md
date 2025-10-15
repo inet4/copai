@@ -40,6 +40,9 @@ Now you are good to go!
 Use `p` to set your OpenAI API key.
 > sk-proj-...
 
+### Changing the Prompt
+Use `m` to change the default prompt
+
 ### Copying the question
 In order to answer a specific questions, it must first be copied to the system-clipboard.
 Some websites disallow copy-operations, thus the [re-enable-right-click extension](https://addons.mozilla.org/en-US/firefox/addon/re-enable-right-click/) may be required.
