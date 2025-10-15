@@ -1,6 +1,6 @@
 # copai
 
-## Installtion
+## Installation
 
 ### NixOS
 
