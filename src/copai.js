@@ -67,6 +67,7 @@ function fetchAnswers(apiKey, question) {
           reject(response.error);
         } else {
           const data = JSON.parse(response.html);
+          console.log("data: ", data)
           const answerData = [];
           for (const obj of data.output) {
             if (obj.type === "message") {
