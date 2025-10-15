@@ -77,6 +77,9 @@ function getPort() {
 function safeDisconnect() {
     try { port && port.disconnect(); } catch {}
     port = null;
+    let li = document.createElement("li");
+    li.innerText = "Stopped successfully"
+    answerElement.appendChild(li)
 }
 
 // turn a multi-line streamed string into <li> items
@@ -92,7 +95,6 @@ function finalizeBulletsFrom(text) {
     }
 }
 
-// Clipboard read
 async function readClipboard() {
     try {
         const text = await navigator.clipboard.readText();
@@ -103,7 +105,6 @@ async function readClipboard() {
     return null;
 }
 
-// Kick off one streamed generation
 async function answerQuestion(prompt, key) {
     const questionText = await readClipboard();
     if (!questionText || inProgress) return;
@@ -164,9 +165,9 @@ window.addEventListener("keydown", async (event) => {
             // quick cancel
             safeDisconnect();
             inProgress = false;
-            const li = document.createElement("li");
-            li.textContent = "[stopped]";
-            window.answer.appendChild(li);
+            setTimeout(() => {
+                window.answer.innerHTML = "";
+            }, 3000)
             break;
         }
     }
