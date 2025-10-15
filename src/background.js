@@ -1,6 +1,3 @@
-
-const PROMPT = "You are a networking specialist, please give the correct answer to the following question. If it is in German, then answer in German. If there are options provided for the question, just return the index of the correct answer:";
-
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
   fetch("https://api.openai.com/v1/responses", {
     method: "POST",
@@ -10,7 +7,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     },
     body: JSON.stringify({
       model: "gpt-5-nano",
-      input: PROMPT + request.question
+      input: request.prompt + request.question
     })
   })
     .then((response) => response.text())

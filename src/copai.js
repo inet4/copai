@@ -1,4 +1,6 @@
 const OPENAI_KEY = "OPENAI_KEY";
+const PROMPT_KEY = "PROMPT_KEY"
+const DEFAULT_PROMPT = "You are a networking specialist, please give the correct answer to the following question. If it is in German, then answer in German. If there are options provided for the question, just return the index of the correct answer:";
 let inProgress = false;
 const answerElement = document.createElement("ul");
 answerElement.id = "answer";
@@ -6,10 +8,17 @@ answerElement.style.width = "50%";
 answerElement.style.visibility = "hidden";
 answerElement.style.zIndex = "999999";
 answerElement.style.position = "fixed";
-answerElement.style.bottom = "100px";
-answerElement.style.right = "20%";
-answerElement.style.opacity = "0.7";
-answerElement.style.color = "#0000001F";
+
+// top-left placement
+answerElement.style.top = "60px";
+answerElement.style.left = "20px";
+
+// make sure previous bottom/right placement doesn't apply
+answerElement.style.bottom = "";
+answerElement.style.right = "";
+
+answerElement.style.opacity = "0.8";
+answerElement.style.color = "#000000";
 
 document.body.appendChild(answerElement);
 window.answer = answerElement;
@@ -45,11 +54,21 @@ window.addEventListener("keydown", async (event) => {
         return;
       }
 
-      answerQuestion(storeKey);
+      const promptValue = localStorage.getItem(PROMPT_KEY) ?? DEFAULT_PROMPT;
+
+      answerQuestion(promptValue, storeKey);
       break;
     case "l":
       window.answer.style.visibility = "visible";
+      if (window.answer.innerText === "") {
+          window.answer.innerText = "Hellooo!"
+      }
       break;
+    case "m":
+        const currentPrompt = localStorage.getItem(PROMPT_KEY) ?? DEFAULT_PROMPT;
+        const newPrompt = prompt("Input GPT Prompt", currentPrompt);
+        if (!newPrompt) return;
+        localStorage.setItem(PROMPT_KEY, newPrompt);
   }
 });
 
@@ -59,9 +78,9 @@ window.addEventListener("keyup", (event) => {
   }
 });
 
-function fetchAnswers(apiKey, question) {
+function fetchAnswers(prompt, apiKey, question) {
   return new Promise((resolve, reject) => {
-    browser.runtime.sendMessage({ apiKey: apiKey, question: question }).then(
+    browser.runtime.sendMessage({ prompt: prompt, apiKey: apiKey, question: question }).then(
       (response) => {
         if (response.error) {
           reject(response.error);
@@ -96,15 +115,20 @@ async function readClipboard() {
   return null;
 }
 
-async function answerQuestion(key) {
+async function answerQuestion(prompt, key) {
   const questionText = await readClipboard();
   if (!questionText || inProgress) {
     return;
   }
 
+    console.log("Sending Request to openai!")
+    console.log(`Key: ${key}`)
+    console.log(`Prompt ${prompt}`)
+    console.log(`Question: ${questionText}`)
+
   inProgress = true;
   window.answer.innerText = "loading...";
-  const correctAnswers = await fetchAnswers(key, questionText);
+  const correctAnswers = await fetchAnswers(prompt, key, questionText);
   if (
     correctAnswers === null ||
     correctAnswers === undefined ||
