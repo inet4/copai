@@ -50,4 +50,17 @@ After copying a question to your clipboard, you can press `a` to fetch the answe
 ###  Display Answers
 In order to actually view the solution, you must keep the `l` key pressed. The list of solutions for the current question will appear on the bottom right.
 
+## Troubleshooting
+There may be problmes if the API key is invalid or doesn't have enough quota. Make sure that you use a key that is able to query models successfully.
+c
 
+This can be tested using:
+```sh
+curl "https://api.openai.com/v1/responses" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $OPENAI_API_KEY" \
+    -d '{
+        "model": "gpt-5",
+        "input": "Write a one-sentence bedtime story about a unicorn."
+    }'
+```
