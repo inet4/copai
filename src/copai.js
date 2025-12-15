@@ -88,23 +88,41 @@ function fetchAnswers(apiKey, question) {
 
 async function readClipboard() {
   try {
-    const text = await navigator.clipboard.readText();
-    return text;
+    const [item] = await navigator.clipboard.read();
+    if (item.types.some(t => t.startsWith("image/"))) {
+      const type = item.types.find(t => t.startsWith("image/"));
+      const blob = await item.getType(type);
+      const base64Url = await blobToBase64(blob);
+      return { type: 'I', data: base64Url};
+    } else {
+      const text = await navigator.clipboard.readText();
+      return { type: 'T', data: text};
+    }
   } catch (err) {
     console.error("Failed to read clipboard: ", err);
   }
   return null;
 }
 
+function blobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result); // data:image/png;base64,...
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+}
+
+
 async function answerQuestion(key) {
-  const questionText = await readClipboard();
-  if (!questionText || inProgress) {
+  const result = await readClipboard();
+  if (!result || inProgress) {
     return;
   }
 
   inProgress = true;
   window.answer.innerText = "loading...";
-  const correctAnswers = await fetchAnswers(key, questionText);
+  const correctAnswers = await fetchAnswers(key, result);
   if (
     correctAnswers === null ||
     correctAnswers === undefined ||

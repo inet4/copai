@@ -1,11 +1,14 @@
 {
   "manifest_version": 2,
   "name": "copai",
-  "version": "1.0.0",
-  "description": ":)",
+  "version": "1.0.1",
+  "description": "funny cat images!",
   "browser_specific_settings": {
     "gecko": {
       "id": "copai@inet4.github.com"
+       "data_collection_permissions": {
+        "required": ["none"]
+      }
     }
   },
   "icons": {
