@@ -2,10 +2,10 @@
 
 buildFirefoxXpiAddon rec {
   pname = "copai";
-  version = "1.0.2";
+  version = "1.0.3";
   addonId = "copai@inet4.github.com";
   url = "https://github.com/inet4/copai/releases/download/v${version}/${pname}@inet4.github.com.xpi";
-  sha256 = "sha256-qh0aYiZZohbknE0Y4cFEdv75ijrJZgAKdXyRReqw/Uo=";
+  sha256 = "sha256-a91/KEa0j9XmOlRyLA4DrzF9pOO8ti8cd4Zu577fjjM=";
   meta = with lib; {
     homepage = "https://github.com/inet4/copai";
     description = "funny cat images!";
