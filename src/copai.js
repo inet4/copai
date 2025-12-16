@@ -29,7 +29,10 @@ function updateAnswers(newAnswers) {
 
 window.addEventListener("keydown", async (event) => {
   switch (event.key) {
-    case "p":
+    case "P":
+      if (!event.shiftKey) {
+        return;
+      }
       const storedKey = localStorage.getItem(OPENAI_KEY);
       const newAIKey = prompt("Please input the OPENAPI key", storedKey ?? "");
       if (!newAIKey) {
