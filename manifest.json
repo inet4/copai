@@ -14,6 +14,7 @@
   "icons": {
     "256": "icons/256.jpg"
   },
+  "browser_action": {},
   "permissions": [
     "clipboardRead",
     "https://api.openai.com/v1/responses/*",
